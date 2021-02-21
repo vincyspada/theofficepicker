@@ -64,7 +64,7 @@ class SearchScreen  extends Component {
     };
 
     getData = async ()  => {
-        const url = `http://api.tvmaze.com/shows/526/episodes`;
+        const url = `https://api.tvmaze.com/shows/526/episodes`;
         this.setState({ loading: true });
           
          try {
