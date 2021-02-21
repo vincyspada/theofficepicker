@@ -1,0 +1,243 @@
+import React, {Component} from 'react';
+import './SearchScreen.css';
+import { Button,DropdownButton,Dropdown,Overlay} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import{CustomDropdown} from './customDropdown';
+import {Choice} from './helpers';
+import DisplayEpi from './DisplayEpi';
+import Homegif from './Homegif.gif';
+import Logo from './Logo.png';
+
+class SearchScreen  extends Component {
+
+    static defaultProps = {
+        Michael:["Michael"],
+        Dwight:["Dwight","Product Recall","Drug Testing","Conflict Resolution","Stress Relif",],
+        Pam:["Pam","Jim","Pilot","Casino Night","Weight Loss","The Delivery"],
+        Toby:["Toby","Diversity Day","The Chump","The Deposition","Casino Night","Dwight Christmas"],
+        Jim:["Jim","Pam","Dwight","Office Olympics","The Fire","The Client","Booze Cruise","Traveling Salesmen"],
+        Oscar:["Oscar","Angela","Murder","Goodbye","Pool Party","Finale"],
+        Kevin:["Kevin","Oscar","Angela","The Chair Model","Niagara","Gossip","Blood Drive","Job Fair","Mafia","Fun Run","Garage Sale","Pam's Replacement"],
+        Angela:["Angela","Oscar","Dwight","Diversity Day","Christmas Party","Michael's Birthday","A Benihana Christmas","Fun Run","Acting Manager","A.A.R.M."],
+        Jan:["Jan","Michael",],
+        Kelly:["Kelly","Ryan","Valentine's Day","Diwali","Dunder Mifflin Infinity","Business trip","Lecture Circuit","Finale"],
+        Ryan:["Ryan","Kelly","Valentine's Day","Initiation","Business School","The Job","Night Out","Michael Scott Paper Company","The Finale"],
+        California:["Robert California","Andy and the Missue","The Garden Party","Literally Everyting Nellie","Pool Party","The wild Dwight Chase","The Garden Party","Taking Erin Home","Winners vs Losers Cont"],
+        Nellie:["Nellie","Dwight Christmas","Andy's Ancestry","The Target","Customer Loyalty"],
+        Wallace:["David Wallace","Suck it",""],
+        Phyllis:["Phyllis","Bob Vance","Women's Appreciation","Moroccan Christmas","Phyllis Wedding"],
+        Creed:["Murder","Ultimatum","Halloween","Search Committee","Gossip","Chair Model","Survivor Man"]
+
+
+
+    };
+
+
+
+    constructor(props){
+        super(props);
+        this.state = {
+            Image:[Homegif],
+
+            CharacterSelected:['Choose Character'],
+            search:'',
+            data:[],
+            temp:[],
+            selectedEpisode:[],
+            loading:false,
+            error:null,
+            visible:false,
+            Button:'Pick an episode!',
+            ErrorMsg:null
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handlebtn = this.handlebtn.bind(this);
+    }
+
+
+
+
+    //Connect API of Episodes
+    componentDidMount(){
+      this.getData();
+    };
+
+    getData = async ()  => {
+        const url = `http://api.tvmaze.com/shows/526/episodes`;
+        this.setState({ loading: true });
+          
+         try {
+            const response = await fetch(url);
+            const json = await response.json();
+            this.setResult(json);
+         } catch (e) {
+            this.setState({ error: 'Error Loading content', loading: false});
+         }
+    };
+
+    
+    //Populate temp arrays with data
+
+    setResult = (res) => {
+        this.setState({
+          temp: [...this.state.temp, ...res],
+          error: res.error || null,
+          loading: false
+        });
+    }
+
+
+
+    //Filter results and render new Data arrays 
+
+
+    updateSearch = () => {
+
+        const filteredData = [...this.state.temp.filter(item => {return item.summary.toLowerCase().includes(this.state.search.toLowerCase())||item.name.toLowerCase().includes(this.state.search.toLowerCase());})];
+        const MappedData = [...filteredData.map(function({id,name,summary,season,number,image}){return {id,name,summary,season,number,image}})];
+        this.setState({data:[...MappedData]},
+
+            () => {
+                const {data} = this.state;
+                const randomIndexObj = Math.floor(Math.random()* data.length);
+                const randomEpi = data[randomIndexObj];
+                if(data.length <=1 && randomEpi.id === this.state.selectedEpisode.id){ this.setState({ErrorMsg:"YUUUK...can't think of anything else right now...Select another Character!"})}
+                else{randomEpi.id === this.state.selectedEpisode.id ? this.updateSearch() : 
+                this.setState({selectedEpisode:randomEpi,visible:false},
+
+
+                    () => {
+
+                        this.setState({Image: this.state.selectedEpisode.image.original,visible:true})},
+                    
+                    
+                    )};
+            }); 
+    };
+
+
+
+    handleChange = (e) => {
+
+        this.setState({CharacterSelected:e.split(','),Button:'Pick an episode!'},
+        
+        () =>  {
+            const {CharacterSelected}=this.state
+            const randomIndex =  Math.floor(Math.random() * CharacterSelected.length);
+            const randomUser = CharacterSelected[randomIndex];
+            this.setState({search:randomUser,ErrorMsg:null})
+
+        }); 
+    };
+
+
+    handlebtn(){
+        this.updateSearch();
+    };
+
+
+
+    //choose random episode from filtered array
+
+    //render episode name,details and description.
+
+
+
+    render(){
+
+        const {selectedEpisode} = this.state
+        
+       
+        console.log(this.state.CharacterSelected)
+        console.log(this.state.search)
+        console.log(this.state.data)
+        console.log(this.state.temp)
+        console.log(this.state.selectedEpisode)
+
+
+
+
+        return (
+        <div className='SearchScreen'>
+            <div className='Heading'>
+                <img style = {{width: '150px'}} src= {Logo} ></img>
+            </div>
+
+            <div className="Title">
+                 <img style = {{width: '350px',paddingBottom:'50px'}}src={this.state.Image}></img>
+                 <h4 style = {{paddingBottom:'50px'}}>Get your favourite character to choose an episode for you!</h4> 
+            </div>
+                 
+            <div className="Form">
+               <DropdownButton style={{width:''}} variant='secondary' id="dropdown-item-button" title={this.state.CharacterSelected[0]}  onSelect={this.handleChange}>
+                
+                 <Dropdown.Item eventKey={this.props.Michael} as="button">Michael</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Dwight} as="button">Dwight</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Pam} as="button">Pam</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Jim} as="button">Jim</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Angela} as="button">Angela</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Kevin} as="button">Kevin</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Oscar} as="button">Oscar</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Kelly} as="button">Kelly</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Ryan} as="button">Ryan</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Creed} as="button">Creed</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Toby} as="button">Toby</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Jan} as="button">Jan</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.Wallace} as="button">David Wallace</Dropdown.Item>
+                 <Dropdown.Item eventKey={this.props.California} as="button">Robert California</Dropdown.Item>
+
+                </DropdownButton>
+                <Button id="Button" variant="secondary" onClick={this.handlebtn}>{this.state.Button}</Button>
+             </div>  
+             <div className="Errormsg">
+                 <p style={{color:'orange',opacity:'.8',fontWeight:'bold'}}>{this.state.ErrorMsg}</p>
+             </div>
+
+            {this.state.visible ?
+                   <DisplayEpi
+                     name={selectedEpisode.name}
+                     summary={selectedEpisode.summary}
+                     season={selectedEpisode.season}
+                     number={selectedEpisode.number}
+                   />
+            : null
+            }
+
+
+             <div>
+
+                 
+            </div>        
+        </div>
+
+    
+        )
+    }
+}
+
+export default SearchScreen;
+
+
+
+
+
+//<DropdownButton variant='secondary' id="dropdown-item-button" title={this.state.CharacterSelected[0]}  onSelect={this.handleChange}>
+//<Dropdown.Item eventKey={this.props.Michael} as="button">Michael</Dropdown.Item>
+//<Dropdown.Item eventKey={this.props.Dwight} as="button">Dwight</Dropdown.Item>
+//<Dropdown.Item eventKey={this.props.Pam} as="button">Pam</Dropdown.Item>
+//<Dropdown.Item eventKey={this.props.Toby} as="button">Toby</Dropdown.Item>
+//<Dropdown.Item eventKey={this.props.Jim} as="button">Jim</Dropdown.Item>
+//</DropdownButton>
+
+
+
+//<input list="Characters" placeholder= "Select Character" name="browser" id="browser"/>
+
+//<datalist id="Characters">
+//{['Michael', 'Dwight', 'Pam', 'Toby', 'Jim', 'Angela'].map(
+//(variant) => (
+//  <option eventkey= {`this.props.${variant}`} key={variant} value={variant}/>
+//),)}
+
+//</datalist>

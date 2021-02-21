@@ -1,0 +1,11 @@
+.DisplayEpi{
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  border: solid 1px;
+  border-radius: 10px;
+  border-color: lightslategray;
+  padding: 20px;
+
+
+}

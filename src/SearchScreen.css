@@ -1,0 +1,40 @@
+
+.SearchScreen{
+    display:flex;
+    flex-direction: column;
+    background-color:#2C3B48;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    color: lightgray;
+}
+
+.Heading{
+    display: flex;
+    flex-direction: row;
+    padding-left: 50px;
+    width: 100vw;
+    padding-top: 20px;
+    
+}
+
+
+.Title{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50vw;
+}
+
+.Form{
+    display: flex;
+    flex-direction: row;
+    width: 60vw;
+    justify-content:center;
+    padding-bottom: 50px;
+}
+
+#Button{
+    width: 200px;
+    height: 38px;
+}
