@@ -7,38 +7,15 @@ import {Choice} from './helpers';
 import DisplayEpi from './DisplayEpi';
 import Homegif from './Homegif.gif';
 import Logo from './Logo.png';
+import JsonData from './CharactersData.json';
 
 class SearchScreen  extends Component {
-
-    static defaultProps = {
-        Michael:["Michael"],
-        Dwight:["Dwight","Product Recall","Drug Testing","Conflict Resolution","Stress Relif",],
-        Pam:["Pam","Jim","Pilot","Casino Night","Weight Loss","The Delivery"],
-        Toby:["Toby","Diversity Day","The Chump","The Deposition","Casino Night","Dwight Christmas"],
-        Jim:["Jim","Pam","Dwight","Office Olympics","The Fire","The Client","Booze Cruise","Traveling Salesmen"],
-        Oscar:["Oscar","Angela","Murder","Goodbye","Pool Party","Finale"],
-        Kevin:["Kevin","Oscar","Angela","The Chair Model","Niagara","Gossip","Blood Drive","Job Fair","Mafia","Fun Run","Garage Sale","Pam's Replacement"],
-        Angela:["Angela","Oscar","Dwight","Diversity Day","Christmas Party","Michael's Birthday","A Benihana Christmas","Fun Run","Acting Manager","A.A.R.M."],
-        Jan:["Jan","Michael",],
-        Kelly:["Kelly","Ryan","Valentine's Day","Diwali","Dunder Mifflin Infinity","Business trip","Lecture Circuit","Finale"],
-        Ryan:["Ryan","Kelly","Valentine's Day","Initiation","Business School","The Job","Night Out","Michael Scott Paper Company","The Finale"],
-        California:["Robert California","Andy and the Missue","The Garden Party","Literally Everyting Nellie","Pool Party","The wild Dwight Chase","The Garden Party","Taking Erin Home","Winners vs Losers Cont"],
-        Nellie:["Nellie","Dwight Christmas","Andy's Ancestry","The Target","Customer Loyalty"],
-        Wallace:["David Wallace","Suck it",""],
-        Phyllis:["Phyllis","Bob Vance","Women's Appreciation","Moroccan Christmas","Phyllis Wedding"],
-        Creed:["Murder","Ultimatum","Halloween","Search Committee","Gossip","Chair Model","Survivor Man"]
-
-
-
-    };
-
 
 
     constructor(props){
         super(props);
         this.state = {
             Image:[Homegif],
-
             CharacterSelected:['Choose Character'],
             search:'',
             data:[],
@@ -60,10 +37,10 @@ class SearchScreen  extends Component {
 
     //Connect API of Episodes
     componentDidMount(){
-      this.getData();
+      this.getApiData();
     };
 
-    getData = async ()  => {
+    getApiData = async ()  => {
         const url = `https://api.tvmaze.com/shows/526/episodes`;
         this.setState({ loading: true });
           
@@ -120,13 +97,27 @@ class SearchScreen  extends Component {
 
     handleChange = (e) => {
 
-        this.setState({CharacterSelected:e.split(','),Button:'Pick an episode!'},
+        this.setState({CharacterSelected:e,Button:'Pick an episode!'},
         
         () =>  {
             const {CharacterSelected}=this.state
-            const randomIndex =  Math.floor(Math.random() * CharacterSelected.length);
-            const randomUser = CharacterSelected[randomIndex];
-            this.setState({search:randomUser,ErrorMsg:null})
+
+            console.log(CharacterSelected)
+            console.log(`this is e : ${e}`)
+
+            const keywords = JsonData.find(({id}) => id === e);
+
+            const keyArr = keywords.keyword;
+
+            console.log(keyArr)
+
+            const randomKeyWord =  keyArr [Math.floor(Math.random() * keyArr.length)];
+
+            console.log(randomKeyWord)
+            
+            this.setState({search:randomKeyWord,ErrorMsg:null})
+
+            console.log(this.state.seach)
 
         }); 
     };
@@ -149,11 +140,11 @@ class SearchScreen  extends Component {
         const {selectedEpisode} = this.state
         
        
-        console.log(this.state.CharacterSelected)
+        //console.log(this.state.CharacterSelected)
         console.log(this.state.search)
-        console.log(this.state.data)
-        console.log(this.state.temp)
-        console.log(this.state.selectedEpisode)
+        //console.log(this.state.data)
+        //console.log(this.state.temp)
+        //console.log(this.state.selectedEpisode)
 
 
 
@@ -170,24 +161,13 @@ class SearchScreen  extends Component {
             </div>
                  
             <div className="Form">
-               <DropdownButton style={{width:''}} variant='secondary' id="dropdown-item-button" title={this.state.CharacterSelected[0]}  onSelect={this.handleChange}>
-                
-                 <Dropdown.Item eventKey={this.props.Michael} as="button">Michael</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Dwight} as="button">Dwight</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Pam} as="button">Pam</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Jim} as="button">Jim</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Angela} as="button">Angela</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Kevin} as="button">Kevin</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Oscar} as="button">Oscar</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Kelly} as="button">Kelly</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Ryan} as="button">Ryan</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Creed} as="button">Creed</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Toby} as="button">Toby</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Jan} as="button">Jan</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.Wallace} as="button">David Wallace</Dropdown.Item>
-                 <Dropdown.Item eventKey={this.props.California} as="button">Robert California</Dropdown.Item>
+               <DropdownButton style={{width:''}} variant='secondary' id="dropdown-item-button" title={this.state.CharacterSelected}  onSelect={this.handleChange}>
 
+                    {JsonData.map((variant)=> {
+                       return (<Dropdown.Item eventKey={`${variant.id}`} as="button">{variant.id}</Dropdown.Item>)})
+                    }
                 </DropdownButton>
+
                 <Button id="Button" variant="secondary" onClick={this.handlebtn}>{this.state.Button}</Button>
              </div>  
              <div className="Errormsg">
@@ -241,3 +221,25 @@ export default SearchScreen;
 //),)}
 
 //</datalist>
+
+
+
+
+                 //<Dropdown.Item eventKey={this.props.Michael} as="button">Michael</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Dwight} as="button">Dwight</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Pam} as="button">Pam</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Jim} as="button">Jim</Dropdown.Item>
+                // <Dropdown.Item eventKey={this.props.Angela} as="button">Angela</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Kevin} as="button">Kevin</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Oscar} as="button">Oscar</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Kelly} as="button">Kelly</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Ryan} as="button">Ryan</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Toby} as="button">Toby</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Kelly} as="button">Kelly</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Meredith} as="button">Meredith</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Phyllis} as="button">Phyllis</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Darryl} as="button">Darryl</Dropdown.Item>
+                 //<Dropdown.Item eventKey={this.props.Jan} as="button">Jan</Dropdown.Item>
+                // <Dropdown.Item eventKey={this.props.Wallace} as="button">David Wallace</Dropdown.Item>
+                // <Dropdown.Item eventKey={this.props.California} as="button">Robert California</Dropdown.Item>
+                // <Dropdown.Item eventKey={this.props.Nellie} as="button">Nellie</Dropdown.Item>
