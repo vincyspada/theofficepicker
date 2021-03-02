@@ -79,7 +79,7 @@ class SearchScreen  extends Component {
                 const {data} = this.state;
                 const randomIndexObj = Math.floor(Math.random()* data.length);
                 const randomEpi = data[randomIndexObj];
-                if(data.length <=1 && randomEpi.id === this.state.selectedEpisode.id){ this.setState({ErrorMsg:"YUUUK...can't think of anything else right now...Select another Character!"})}
+                if(data.length <=1 && randomEpi.id === this.state.selectedEpisode.id){ this.setState({ErrorMsg:"YUUUK...can't think anything else right now...Select another Character!"})}
                 else{randomEpi.id === this.state.selectedEpisode.id ? this.updateSearch() : 
                 this.setState({selectedEpisode:randomEpi,visible:false},
 
@@ -117,7 +117,7 @@ class SearchScreen  extends Component {
             
             this.setState({search:randomKeyWord,ErrorMsg:null})
 
-            console.log(this.state.seach)
+            console.log(this.state.search)
 
         }); 
     };
@@ -156,12 +156,12 @@ class SearchScreen  extends Component {
             </div>
 
             <div className="Title">
-                 <img style = {{width: '350px',paddingBottom:'50px'}}src={this.state.Image}></img>
+                 <img style = {{width: '350px', height: '250px',paddingBottom:'50px'}}src={this.state.Image}></img>
                  <h4 style = {{paddingBottom:'50px'}}>Get your favourite character to choose an episode for you!</h4> 
             </div>
                  
             <div className="Form">
-               <DropdownButton style={{width:''}} variant='secondary' id="dropdown-item-button" title={this.state.CharacterSelected}  onSelect={this.handleChange}>
+               <DropdownButton style={{paddingRight:'1%'}} drop= 'down' variant='secondary' id="dropdown-item-button" title={this.state.CharacterSelected}  onSelect={this.handleChange}>
 
                     {JsonData.map((variant)=> {
                        return (<Dropdown.Item eventKey={`${variant.id}`} as="button">{variant.id}</Dropdown.Item>)})
