@@ -6,6 +6,18 @@
   border-radius: 10px;
   border-color: lightslategray;
   padding: 20px;
+}
 
+@media (max-width:375px){
+
+  .DisplayEpi{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    border: solid 1px;
+    border-radius: 10px;
+    border-color: lightslategray;
+    padding: 20px;
+  }
 
 }

@@ -39,3 +39,35 @@
     width: 200px;
     height: 38px;
 }
+
+
+@media (max-width:375px){
+
+    .Title{
+        display:flex;
+        padding-top: 30px;
+        flex-direction: column;
+        align-items: center;
+        width: 90vw;
+    }
+
+    .Form{
+        display: flex;
+        flex-direction: row;
+        width: 90vw;
+        justify-content:center;
+        padding-bottom: 50px;
+    }
+
+    .Heading{
+        display: flex;
+        flex-direction: row;
+        padding-left: 16px;
+        width: 100vw;
+        padding-top: 20px;
+        height: 110px;
+        
+    }
+
+
+}
