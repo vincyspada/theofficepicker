@@ -156,7 +156,7 @@ class SearchScreen  extends Component {
             </div>
 
             <div className="Title">
-                 <img style = {{width: '350px', height: '250px',paddingBottom:'50px'}}src={this.state.Image}></img>
+                 <img className="Image" src={this.state.Image}></img>
                  <h4 style = {{paddingBottom:'50px'}}>Get your favourite character to choose an episode for you!</h4> 
             </div>
                  

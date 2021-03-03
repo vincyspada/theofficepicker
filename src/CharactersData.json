@@ -4,7 +4,7 @@
      "keyword":["Michael"]
     },
     {"id":"Dwight",
-     "keyword":["Dwight","Product Recall","Drug Testing","Conflict Resolution","Stress Relif"]
+     "keyword":["Dwight","Product Recall","Drug Testing","Conflict Resolution","Stress Relief"]
     },
     {"id":"Pam",
      "keyword":["Pam","Jim","Pilot","Casino Night","Weight Loss","The Delivery"]
@@ -31,10 +31,10 @@
      "keyword":["Kelly","Ryan","Valentine's Day","Diwali","Dunder Mifflin Infinity","Business trip","Lecture Circuit","Finale"]
     },
     {"id":"Ryan",
-     "keyword":["Ryan","Kelly","Valentine's Day","Initiation","Business School","The Job","Night Out","Michael Scott Paper Company","The Finale"]
+     "keyword":["Ryan","Kelly","Valentine's Day","Initiation","Business School","The Job","Night Out","Michael Scott Paper Company","Finale"]
     },
     {"id":"California", 
-     "keyword":["Robert California","Andy and the Missue","The Garden Party","Literally Everyting Nellie","Pool Party","The wild Dwight Chase","The Garden Party","Winners vs Losers Cont"]
+     "keyword":["Robert California"]
     },
     {"id":"Nellie",
      "keyword":["Nellie","Dwight Christmas","Andy's Ancestry","The Target","Customer Loyalty"]
@@ -49,7 +49,7 @@
       "keyword":["Murder","Ultimatum","Halloween","Search Committee","Gossip","Chair Model","Survivor Man"]
     },
     {"id":"Meredith",
-     "keyword":["Meredith","Casual  Friday","Flashing Michael","Moroccan Christmas","Business School","Christmas Party"]
+     "keyword":["Meredith","Casual Friday","Flashing Michael","Moroccan Christmas","Business School","Christmas Party"]
     },
     {"id":"Darryl",
      "keyword":["Darryl"]
