@@ -117,7 +117,7 @@ class SearchScreen  extends Component {
             
             this.setState({search:randomKeyWord,ErrorMsg:null})
 
-            console.log(this.state.search)
+            console.log('this is search in handlechange:',this.state.search)
 
         }); 
     };
@@ -141,8 +141,8 @@ class SearchScreen  extends Component {
         
        
         //console.log(this.state.CharacterSelected)
-        console.log(this.state.search)
-        //console.log(this.state.data)
+        console.log('this is search in render:',this.state.search)
+        console.log('this is data:',this.state.data)
         //console.log(this.state.temp)
         //console.log(this.state.selectedEpisode)
 
